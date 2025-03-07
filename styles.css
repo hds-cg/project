@@ -230,6 +230,8 @@ p {
     -webkit-overflow-scrolling: touch;  /* 确保启用iOS弹性滚动 */
     height: 100vh;
     /* scroll-snap-type: y mandatory; */
+    touch-action: pan-y pinch-zoom; /* 允许垂直滚动和缩放 */
+    overscroll-behavior: contain; /* 防止滚动传播 */
 }
 
 .project::-webkit-scrollbar {
@@ -276,6 +278,8 @@ p {
     align-items: flex-start;
     width: 100%;
     position: relative; /* 添加相对定位 */
+    scroll-snap-align: start;
+    touch-action: pan-y pinch-zoom;
 }
 
 .info {
@@ -293,6 +297,8 @@ p {
     position: relative; /* 添加相对定位 */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 .info::-webkit-scrollbar {
@@ -327,6 +333,7 @@ p {
     transition: all 0.3s ease;
     flex-grow: 1;
     touch-action: pan-y; /* 明确允许垂直触控操作 */
+    touch-action: manipulation;
 }
 
 .project-images.expanded {
