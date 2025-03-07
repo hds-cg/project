@@ -1,0 +1,651 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: left;
+    /* 添加全局左对齐 */
+    text-align: justify;
+    /* 移除不支持的 text-justify 属性 */
+    hyphens: auto; /* 添加自动连字符支持 */
+}
+
+body {
+    font-family: 'Epilogue', 'Noto Sans', sans-serif;
+    max-width: 100%;
+    width: 100%;
+    background-color: #000000;
+    color: #969696;
+}
+
+p {
+    text-align: left;
+    /* 确保段落左对齐 */
+    text-justify: none;
+}
+
+/* 防止不必要的文本选择 */
+.intro *:not(input, textarea),
+.project *:not(input, textarea) {
+    user-select: none;
+}
+
+/* 允许特定区域的文本选择 */
+.info p,
+.english-text,
+.content-box {
+    user-select: text;
+}
+
+/*标题样式*/
+.title-bar {
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: space-between; /* 左右对齐 */
+    align-items: center; /* 垂直居中 */
+    background-color: #000000; /* 背景色 */
+    padding: 1rem 0.5rem 0.75rem 0.5rem; /* 内边距 */
+    white-space: nowrap; /* 防止换行 */
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+
+.title {
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+    font-weight: 500;
+    white-space: nowrap;
+    margin: 0;
+    color: #969696;
+    transition: all 0.3s ease;
+}
+
+.title:hover {
+    cursor: pointer;
+    color: transparent;
+    background: linear-gradient(to right,
+            #969696 20%,
+            #ffffff 40%,
+            #eeeeee 60%,
+            #969696 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine 2s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.intro .title {
+    text-align: left;
+}
+
+.project .title1 {
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+    font-weight: 500;
+    margin: 0.7rem 0 0.8rem 1rem;
+    width: 60%;
+}
+
+.toggle-info-text {
+    position: relative;
+    display: flex;
+    right: 1rem;
+    font: 500 clamp(1rem, 1.2vw, 1.2rem) 'Epilogue', 'Noto Sans', sans-serif;
+    color: #969696;
+    white-space: nowrap;
+    background: black;
+    margin: 0.7rem 0 0.8rem 1rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.toggle-info-text:hover {
+    cursor: pointer;
+    color: transparent;
+    background: linear-gradient(to right,
+            #969696 20%,
+            #ffffff 40%,
+            #eeeeee 60%,
+            #969696 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine 2s linear infinite;
+}
+
+/*标题样式*/
+
+/*分栏样式*/
+/* 调整基础容器的滚动行为 */
+.container {
+    width: 100vw;
+    display: flex;
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
+    overflow: hidden; /* 防止整体容器滚动 */
+}
+
+/* 调整 intro 宽度 */
+.intro {
+    width: 25vw;
+    padding: 0.5rem;
+    position: fixed;
+    /* 固定位置 */
+    height: 100vh;
+    /* 高度设置为视口高度 */
+    overflow-y: auto;
+    /* 允许垂直滚动 */
+    overflow-x: hidden;
+    /* 添加横向溢出隐藏 */
+    pointer-events: none; /* 默认禁用所有鼠标事件 */
+}
+
+.experience-wrapper,
+.contact-info-box,
+.title-bar {
+    pointer-events: auto; /* 恢复鼠标事件 */
+}
+
+.index {
+    width: 7vw;
+    padding: 0.5rem;
+    position: fixed;
+    left: 25.2vw;
+    height: 100vh;
+    overflow: hidden;
+    /* 隐藏溢出内容 */
+}
+
+.index-list-wrapper {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    /* 确保子元素不会超出容器 */
+}
+
+.index-list {
+    position: absolute; /* 改为绝对定位 */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    will-change: transform;
+    width: 100%;
+}
+
+.index-list-clone {
+    position: absolute;
+    top: 100%; /* 确保clone列表在原始列表下方 */
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@keyframes scrollIndex {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.index-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    cursor: pointer;
+}
+
+.index-number {
+    color: #969696;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    font-family: 'Epilogue', sans-serif;
+    text-align: center;
+}
+
+.index-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* 更新 project 宽度和位置 */
+.project {
+    width: 68vw;
+    padding: 0.5rem;
+    margin-left: 32vw;
+    position: relative;
+    padding-top: 4.5rem;
+    pointer-events: auto; /* 修改为允许触摸事件 */
+    overflow-y: scroll; /* 强制启用滚动 */
+    -webkit-overflow-scrolling: touch; /* 启用iOS弹性滚动 */
+    height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.project-content,
+.info,
+.project-images {
+    pointer-events: auto;
+}
+
+/* 添加固定的 title-bar 样式 */
+.project .title-bar {
+    position: fixed;
+    top: 0;
+    width: 68vw;
+    /* 与 project 容器同宽 */
+    left: 32vw;
+    background-color: #000000;
+    /* 与背景色相同 */
+    z-index: 1000;
+    /* 确保在其他内容之上 */
+    padding: 0.75rem 0.25rem 0.8rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* 调整分隔线样式 */
+.project .divider {
+    position: fixed;
+    top: calc(1.5rem + clamp(1.2rem, 1.5vw, 1.5rem) + 0.75rem);
+    width: calc(68vw - 3rem);
+    /* 减去左右padding各1rem */
+    z-index: 1000;
+    /* margin: 0.5rem 0.5rem; */
+    justify-content: space-between;
+}
+
+.project-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    position: relative; /* 添加相对定位 */
+}
+
+.info {
+    width: 30%;
+    height: 100%;
+    overflow-y: auto;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    padding: 0.75rem 0.5rem;
+    letter-spacing: 0.01;
+    line-height: clamp(1.25, 1.5, 1.75); /* 修改为clamp函数 */
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    position: relative; /* 添加相对定位 */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.info::-webkit-scrollbar {
+    display: none;
+}
+
+.info .detail {
+    font-size: 1rem;
+    padding: 0.5rem;
+    color: #646464;
+    letter-spacing: 0.01;
+    line-height: clamp(1.25, 1.5, 1.75); /* 修改为clamp函数 */
+}
+
+.info.hidden {
+    width: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    flex-basis: 0;
+    flex-shrink: 0;
+    position: absolute; /* 使用绝对定位移出文档流 */
+    left: -9999px; /* 移出可视区域 */
+    height: 0; /* 确保不占用任何空间 */
+    overflow: hidden; /* 隐藏溢出内容 */
+}
+
+.project-images {
+    width: 70%;
+    padding: 0.75rem 0.5rem;
+    transition: all 0.3s ease;
+    flex-grow: 1;
+    touch-action: pan-y; /* 明确允许垂直触控操作 */
+}
+
+.project-images.expanded {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+
+/*分栏样式*/
+
+/*文本框样式*/
+.content-box {
+    width: 100%;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    letter-spacing: 0.01;
+    line-height: clamp(1.25, 1.5, 1.75); /* 修改为clamp函数 */
+}
+
+.english-text {
+    color: #646464;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    padding: 0;
+    margin: 0.5rem 0;
+    letter-spacing: 0.01;
+    line-height: clamp(1.25, 1.5, 1.75);
+}
+
+.project-info2 {
+    width: 100%;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    letter-spacing: 0.01;
+    line-height: clamp(1.25, 1.5, 1.75); /* 修改为clamp函数 */
+}
+
+.contact-info-box {
+    width: 25vw;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    margin: 1.5rem 0;
+    padding: 0.5rem;
+    color: #646464;
+    position: absolute;
+    bottom: 0;
+    letter-spacing: 0.01;
+    line-height: 1.5;
+}
+
+.contact-divider {
+    width: calc(25vw - 1rem);
+    border: 0;
+    height: 1px;
+    background-color: #646464;
+    margin: 1rem 0;
+}
+.divider {
+    width: calc(100% - 1rem);
+    border: 0;
+    height: 1px;
+    background-color: #969696;
+    margin: 0.5rem 0.5rem;
+    /* Added left and right margins of 0.5rem */
+}
+
+.experience-divider {
+    width: calc(100% - 1rem);
+    border: 0;
+    height: 1px;
+    background-color: #969696;
+    margin: 0.5rem 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.experience-divider.active {
+    opacity: 1;
+}
+
+/* 滚动效果 */
+.marquee {
+    width: 100%;
+    height: 1.5em;
+    overflow: hidden;
+    position: relative;
+    color: #646464;
+    margin: 0.5rem 0 0 0;
+    transform: translateZ(0); /* 启用硬件加速 */
+    backface-visibility: hidden; /* 防止闪烁 */
+    perspective: 1000px; /* 提高性能 */
+}
+
+.marquee_contents {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee_inner {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+}
+
+.marquee_text {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0; /* 禁止压缩 */
+}
+/*文本框样式*/
+
+/*图片样式*/
+.project-images {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+/* 图片容器 */
+.image-container,
+.image-container2,
+.image-container3,
+.image-container4 {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    background: #000000;
+    /* 改为黑色背景 */
+    cursor: auto;
+    /* 容器保持默认鼠标样式 */
+}
+
+/* 样式01 */
+.image-container {
+    width: 100%;
+    padding-bottom: 56.25%;
+    /* 16:9 ratio */
+}
+
+/* 样式02 */
+.image-container2 {
+    width: 65%;
+    padding-bottom: 86.67%;
+    /* (1440/1080) * 65% */
+    margin: 0 auto 3rem auto;
+}
+
+/* 样式03 */
+.image-container3 {
+    width: 85%;
+    padding-bottom: 56.67%;
+    /* (2000/3000) * 85% for 3:2 aspect ratio */
+    margin: 0 auto 3rem auto;
+}
+
+/* 样式04 */
+.image-container4 {
+    width: 85%;
+    padding-bottom: 63.75%;
+    /* (4/3) * 85% for 4:3 aspect ratio */
+    margin: 0 auto 3rem auto;
+}
+
+/* 样式05 */
+.image-container5 {
+    width: 75%;
+    padding-bottom: 75%;
+    /* 1:1 ratio */
+    margin: 0 auto 3rem auto;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    background: #000000;
+    /* 改为黑色背景 */
+    cursor: auto;
+}
+
+/* 图像 */
+.image-container img,
+.image-container2 img,
+.image-container3 img,
+.image-container4 img,
+.image-container5 img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    object-fit: cover;
+    transition: transform 0.3s ease-out;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.image-container img:first-child,
+.image-container2 img:first-child,
+.image-container3 img:first-child,
+.image-container4 img:first-child,
+.image-container5 img:first-child {
+    display: block;
+}
+
+/* 悬停效果 */
+.project-images:hover .arrow,
+.image-container:hover .arrow,
+.image-container2:hover .arrow,
+.image-container3:hover .arrow,
+.image-container4:hover .arrow,
+.image-container5:hover .arrow {
+    opacity: 0;
+}
+
+.project-images:hover .image-counter,
+.image-container:hover .image-counter {
+    display: block;
+}
+
+/* 计数器样式 */
+.image-counter {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    color: #000000;
+    padding: 3px 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    border-radius: 6px;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    cursor: none;
+}
+
+/*图片样式*/
+
+
+/*工作经历折叠样式*/
+.collapse-btn {
+    background: none;
+    border: none;
+    color: #969696;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: inherit;
+}
+
+.collapse-btn:hover {
+    cursor: pointer;
+    color: transparent;
+    background: linear-gradient(to right,
+            #969696 20%,
+            #ffffff 40%,
+            #eeeeee 60%,
+            #969696 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine 2s linear infinite;
+}
+
+.collapse-btn .state {
+    font-family: inherit;
+    margin-left: auto;
+    margin-right: 0.5rem;
+}
+
+.experience-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.experience-content.active {
+    max-height: 1000px;
+}
+
+/* 添加新的容器样式 */
+.experience-wrapper {
+    height: calc(100vh - 150px); /* 初始值,会被JS更新 */
+    overflow-y: auto;
+    position: relative;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    pointer-events: auto; /* 恢复鼠标事件 */
+}
+
+.experience-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+/* 调整现有的.experience样式 */
+.experience {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.project-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none; /* 初始状态无动画 */
+}
+
+/* 添加index点击反馈效果 */
+.index-item img {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.index-item:active img {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
