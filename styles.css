@@ -226,12 +226,14 @@ p {
     margin-left: 32vw;
     position: relative;
     padding-top: 4.5rem;
-    pointer-events: auto; /* 修改为允许触摸事件 */
-    overflow-y: scroll; /* 强制启用滚动 */
-    -webkit-overflow-scrolling: touch; /* 启用iOS弹性滚动 */
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;  /* 确保启用iOS弹性滚动 */
     height: 100vh;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    /* scroll-snap-type: y mandatory; */
+}
+
+.project::-webkit-scrollbar {
+    display: none;  /* Chrome/Safari */
 }
 
 .project-content,
