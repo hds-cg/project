@@ -4,7 +4,7 @@
     box-sizing: border-box;
     text-align: left;
     /* 添加全局左对齐 */
-    text-align: justify;
+    text-align: none;
     /* 移除不支持的 text-justify 属性 */
     hyphens: auto; /* 添加自动连字符支持 */
 }
