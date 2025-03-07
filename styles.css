@@ -130,6 +130,11 @@ p {
     overflow: hidden; /* 防止整体容器滚动 */
 }
 
+.project-container {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* 调整 intro 宽度 */
 .intro {
     width: 25vw;
