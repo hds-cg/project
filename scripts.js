@@ -338,6 +338,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initMarquee();
     setupInfoToggle();
     setupInfoHeight();
+    setupTouchHandling();
+    setupScrollBehavior(); 
     
     // 删除原独立的内容加载监听器（约第361行和471行）
 });
@@ -487,63 +489,78 @@ window.addEventListener('resize', () => {
 });
 
 
-// 在DOM加载后添加
-document.addEventListener('DOMContentLoaded', () => {
-    const projectContainer = document.querySelector('.project');
-    
-    // 移除原有事件监听
-    projectContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
-    projectContainer.addEventListener('touchmove', handleTouchMove, { passive: true });
-    
-    // 新增惯性滚动逻辑
-    let isScrolling;
-    projectContainer.addEventListener('touchmove', () => {
-        clearTimeout(isScrolling);
-        isScrolling = setTimeout(() => {
-            projectContainer.style.scrollBehavior = 'smooth';
-        }, 100);
-    }, { passive: true });
-});
-
 // 优化后的触摸处理
-function handleTouchStart(e) {
-    touchStartY = e.touches[0].pageY;
+function setupTouchHandling() {
+    const projectContainer = document.querySelector('.project');
+    let startY = 0;
+    let startTime = 0;
+    let lastY = 0;
+    let velocity = 0;
+
+    projectContainer.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        lastY = startY;
+        startTime = Date.now();
+        
+        // 停止所有正在进行的动画
+        projectContainer.style.transition = 'none';
+    }, { passive: true });
+
+    projectContainer.addEventListener('touchmove', (e) => {
+        const currentY = e.touches[0].clientY;
+        const deltaY = startY - currentY;
+        const currentTime = Date.now();
+        const dt = currentTime - startTime;
+        
+        // 计算滑动速度
+        velocity = (lastY - currentY) / dt;
+        lastY = currentY;
+        
+        // 检查滚动边界
+        const atTop = projectContainer.scrollTop <= 0;
+        const atBottom = projectContainer.scrollTop + projectContainer.clientHeight >= projectContainer.scrollHeight;
+        
+        if ((atTop && deltaY < 0) || (atBottom && deltaY > 0)) {
+            projectContainer.style.overflow = 'hidden';
+        } else {
+            projectContainer.style.overflow = 'scroll';
+            projectContainer.scrollTop += deltaY * 1.2; // 调整滚动灵敏度
+        }
+    }, { passive: true });
+
+    projectContainer.addEventListener('touchend', (e) => {
+        const endY = e.changedTouches[0].clientY;
+        const deltaY = endY - startY;
+        const deltaTime = Date.now() - startTime;
+        
+        // 恢复正常滚动状态
+        projectContainer.style.overflow = 'scroll';
+        projectContainer.style.transition = '';
+
+        // 计算惯性滚动
+        if (Math.abs(deltaY) > 20 && deltaTime < 300) {
+            const momentum = velocity * 800; // 调整惯性系数
+            projectContainer.scrollBy({
+                top: momentum,
+                behavior: 'smooth'
+            });
+        }
+    }, { passive: true });
 }
 
-function handleTouchMove(e) {
-    const deltaY = touchStartY - e.touches[0].pageY;
-    const currentTarget = e.currentTarget;
-    
-    // 当滚动容器在边界时允许页面滚动
-    if ((deltaY > 0 && currentTarget.scrollTop >= currentTarget.scrollHeight - currentTarget.offsetHeight) || 
-        (deltaY < 0 && currentTarget.scrollTop <= 0)) {
-        return true; // 允许默认行为
+// 防止整个页面的滚动穿透
+document.body.addEventListener('touchmove', (e) => {
+    if (!e.target.closest('.project')) {
+        e.preventDefault();
     }
-    
-    e.preventDefault(); // 阻止默认处理
-    currentTarget.scrollTop += deltaY * 1.5; // 增强滚动灵敏度
-}
-let touchStartY = 0;
+}, { passive: false });
 
-function handleTouchStart(e) {
-    touchStartY = e.touches[0].clientY;
+// 优化滚动性能
+const projectContainer = document.querySelector('.project');
+if (projectContainer) {
+    projectContainer.addEventListener('scroll', () => {
+        window.requestAnimationFrame(() => {
+            // 处理滚动相关的视觉更新
+        });
+    }, { passive: true });
 }
-
-function handleTouchMove(e) {
-    const deltaY = touchStartY - e.touches[0].clientY;
-    const isScrollingUp = deltaY > 0;
-    
-    // 当滚动到边界时允许页面整体滚动
-    const atTop = e.currentTarget.scrollTop === 0;
-    const atBottom = e.currentTarget.scrollHeight - 
-                    e.currentTarget.scrollTop === 
-                    e.currentTarget.clientHeight;
-    
-    if ((isScrollingUp && atTop) || (!isScrollingUp && atBottom)) {
-        e.currentTarget.style.overflowY = 'hidden';
-        setTimeout(() => {
-            e.currentTarget.style.overflowY = 'scroll';
-        }, 100);
-    }
-}
-
