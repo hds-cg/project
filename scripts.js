@@ -564,3 +564,7 @@ if (projectContainer) {
         });
     }, { passive: true });
 }
+
+document.querySelector('.project-container').addEventListener('touchstart', function(event) {
+    event.stopPropagation();
+}, { passive: true });
