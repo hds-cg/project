@@ -127,7 +127,7 @@ p {
     width: 100vw;
     display: flex;
     padding: 0rem 0.5rem 0.5rem 0.5rem;
-    overflow: hidden; /* 防止整体容器滚动 */
+    overflow: visible; /* 防止整体容器滚动 */
 }
 
 .project-container {
@@ -390,11 +390,11 @@ p {
 }
 
 .contact-divider {
-    width: calc(25vw - 1rem);
+    width: calc(25vw - 2rem);
     border: 0;
     height: 1px;
     background-color: #646464;
-    margin: 1rem 0;
+    margin: 1rem 1rem 1rem 0;
 }
 .divider {
     width: calc(100% - 1rem);
