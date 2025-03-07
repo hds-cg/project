@@ -489,14 +489,40 @@ window.addEventListener('resize', () => {
 
 // 在DOM加载后添加
 document.addEventListener('DOMContentLoaded', () => {
-    const projectElements = document.querySelectorAll('.project, .project-images');
+    const projectContainer = document.querySelector('.project');
     
-    projectElements.forEach(el => {
-        el.addEventListener('touchstart', handleTouchStart, { passive: true });
-        el.addEventListener('touchmove', handleTouchMove, { passive: true });
-    });
+    // 移除原有事件监听
+    projectContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+    projectContainer.addEventListener('touchmove', handleTouchMove, { passive: true });
+    
+    // 新增惯性滚动逻辑
+    let isScrolling;
+    projectContainer.addEventListener('touchmove', () => {
+        clearTimeout(isScrolling);
+        isScrolling = setTimeout(() => {
+            projectContainer.style.scrollBehavior = 'smooth';
+        }, 100);
+    }, { passive: true });
 });
 
+// 优化后的触摸处理
+function handleTouchStart(e) {
+    touchStartY = e.touches[0].pageY;
+}
+
+function handleTouchMove(e) {
+    const deltaY = touchStartY - e.touches[0].pageY;
+    const currentTarget = e.currentTarget;
+    
+    // 当滚动容器在边界时允许页面滚动
+    if ((deltaY > 0 && currentTarget.scrollTop >= currentTarget.scrollHeight - currentTarget.offsetHeight) || 
+        (deltaY < 0 && currentTarget.scrollTop <= 0)) {
+        return true; // 允许默认行为
+    }
+    
+    e.preventDefault(); // 阻止默认处理
+    currentTarget.scrollTop += deltaY * 1.5; // 增强滚动灵敏度
+}
 let touchStartY = 0;
 
 function handleTouchStart(e) {
