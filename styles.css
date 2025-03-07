@@ -685,23 +685,33 @@ p {
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 20px;
+        padding: 10px;
     }
 
     .message-box {
         max-width: 400px;
         text-align: center;
+        margin-bottom: 80px;
     }
     
     .message-box h1 {
         font-size: 24px;
         color: #969696; 
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     
     .message-box p {
         font-size: 16px;
         color: #969696;
         line-height: 1.6;
+        letter-spacing: 0.1rem;
+    }
+    .copyright {
+        position: fixed;
+        font-size: 8%;
+        color: #969696;
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
     }
 }
