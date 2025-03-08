@@ -695,13 +695,14 @@ p {
     }
     
     .message-box h1 {
-        font-size: 24px;
+        font-size: 1.5em;
+        text-align: center;
         color: #969696; 
-        margin-bottom: 10px;
+        margin-bottom: 0.25em;
     }
     
     .message-box p {
-        font-size: 16px;
+        font-size: 1em;
         color: #969696;
         line-height: 1.6;
         letter-spacing: 0.1rem;
