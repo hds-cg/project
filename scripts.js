@@ -341,7 +341,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setupTouchHandling();
     setupScrollBehavior(); 
     
-    // 删除原独立的内容加载监听器（约第361行和471行）
+    const projectContainer = document.querySelector('.project');
+    if (projectContainer) {
+        projectContainer.addEventListener('scroll', () => {
+            window.requestAnimationFrame(() => {
+                // 处理滚动相关的视觉更新
+            });
+        }, { passive: true });
+    }
 });
 
 // 添加标题点击返回功能
@@ -554,17 +561,3 @@ document.body.addEventListener('touchmove', (e) => {
         e.preventDefault();
     }
 }, { passive: false });
-
-// 优化滚动性能
-const projectContainer = document.querySelector('.project');
-if (projectContainer) {
-    projectContainer.addEventListener('scroll', () => {
-        window.requestAnimationFrame(() => {
-            // 处理滚动相关的视觉更新
-        });
-    }, { passive: true });
-}
-
-document.querySelector('.project-container').addEventListener('touchstart', function(event) {
-    event.stopPropagation();
-}, { passive: true });
