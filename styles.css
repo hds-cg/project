@@ -709,7 +709,7 @@ p {
     }
     .copyright {
         position: fixed;
-        font-size: 8%;
+        font-size: 0.4em;
         line-height: 1.5;
         color: #646464;
         bottom: 40px;
